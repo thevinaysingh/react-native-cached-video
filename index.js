@@ -1,6 +1,4 @@
+'use strict';
 
-import { NativeModules } from 'react-native';
-
-const { RNCachedVideo } = NativeModules;
-
-export default RNCachedVideo;
+module.exports = require('./CachedVideo');
+module.exports.VideoCacheProvider = require('./VideoCacheProvider');
