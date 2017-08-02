@@ -1,0 +1,26 @@
+TestProject@0.0.1 D:\Workspace\react-native-cached-video\Example
++-- UNMET PEER DEPENDENCY react-native@0.45.1
+`-- react-native-vector-icons@4.3.0 
+  `-- yargs@8.0.2 
+    +-- camelcase@4.1.0 
+    +-- cliui@3.2.0 
+    | `-- string-width@1.0.2 
+    +-- os-locale@2.1.0 
+    | `-- execa@0.7.0 
+    |   +-- cross-spawn@5.1.0 
+    |   | `-- shebang-command@1.2.0 
+    |   |   `-- shebang-regex@1.0.0 
+    |   +-- signal-exit@3.0.2 
+    |   `-- strip-eof@1.0.0 
+    +-- read-pkg-up@2.0.0 
+    | +-- find-up@2.1.0 
+    | `-- read-pkg@2.0.0 
+    |   +-- load-json-file@2.0.0 
+    |   | `-- strip-bom@3.0.0 
+    |   `-- path-type@2.0.0 
+    +-- string-width@2.1.1 
+    | +-- is-fullwidth-code-point@2.0.0 
+    | `-- strip-ansi@4.0.0 
+    +-- which-module@2.0.0 
+    `-- yargs-parser@7.0.0 
+
