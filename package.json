@@ -20,7 +20,6 @@
     "url": "git+https://github.com/majavrella/react-native-cached-video.git"
   },
   "peerDependencies": {
-    "react-native": "^0.41.2",
     "crypto-js": "3.1.9-1",
     "lodash": "4.17.4",
     "react-native-fetch-blob": "0.10.4",
