@@ -1,6 +1,5 @@
 import VideoPlayer from 'react-native-video-player';
-
-const _ = require('lodash');
+import _ from 'lodash';
 const React = require('react');
 const ReactNative = require('react-native');
 const flattenStyle = ReactNative.StyleSheet.flatten;
@@ -11,15 +10,17 @@ const {
     ActivityIndicator,
     NetInfo,
     Platform,
-} = ReactNative;
-
-const {
-    StyleSheet
+    StyleSheet,
+    Dimensions,
 } = ReactNative;
 
 const styles = StyleSheet.create({
     video: {
         backgroundColor: 'transparent',
+        minHeight: 50,
+        minWidth: 50,
+        alignItems: 'center',
+        justifyContent: 'center',
     },
     loader: {
         backgroundColor: 'transparent',
@@ -47,14 +48,33 @@ const CachedVideo = React.createClass({
         ]).isRequired,
         resolveHeaders: React.PropTypes.func,
         thumbnail: Image.propTypes.source,
+        style: React.PropTypes.oneOfType([
+            React.PropTypes.object,
+            React.PropTypes.any
+        ]),
+        disableControlsAutoHide: React.PropTypes.bool,
+        endWithThumbnail: React.PropTypes.bool,
+        videoWidth: React.PropTypes.number,
+        videoHeight: React.PropTypes.number,
     },
 
     getDefaultProps() {
         return {
-            renderVideo: props => (<VideoPlayer ref={CACHED_VIDEO_REF} {...props}/>),
+            renderVideo: props => (
+              <VideoPlayer
+                ref={CACHED_VIDEO_REF}
+                {...props}
+              />
+            ),
             activityIndicatorProps: {},
             useQueryParamsInCacheKey: false,
-            resolveHeaders: () => Promise.resolve({})
+            resolveHeaders: () => Promise.resolve({}),
+            thumbnail: null,
+            style: null,
+            disableControlsAutoHide: true,
+            endWithThumbnail: true,
+            videoWidth: Dimensions.get('window').width,
+            videoHeight: Dimensions.get('window').height / 2,
         };
     },
 
@@ -117,9 +137,9 @@ const CachedVideo = React.createClass({
         const url = _.get(source, ['uri'], null);
         if (VideoCacheProvider.isCacheable(url)) {
             const options = _.pick(this.props, ['useQueryParamsInCacheKey', 'cacheGroup']);
-            // try to get the image path from cache
+            // try to get the video path from cache
             VideoCacheProvider.getCachedVideoPath(url, options)
-                // try to put the image in cache if
+                // try to put the video in cache if
                 .catch(() => VideoCacheProvider.cacheVideo(url, options, this.props.resolveHeaders))
                 .then(cachedVideoPath => {
                     this.safeSetState({
@@ -153,9 +173,12 @@ const CachedVideo = React.createClass({
             } : this.props.source;
         return this.props.renderVideo({
             ...props,
+            disableControlsAutoHide: this.props.disableControlsAutoHide,
+            videoWidth: this.props.videoWidth,
+            videoHeight: this.props.videoHeight,
             key: props.key || source.uri,
             style,
-            endWithThumbnail: true,
+            endWithThumbnail: this.props.endWithThumbnail,
             thumbnail: this.props.thumbnail,
             video: source
         });
@@ -177,8 +200,11 @@ const CachedVideo = React.createClass({
         return this.props.renderVideo({
             ...videoProps,
             style: videoStyle,
+            disableControlsAutoHide: this.props.disableControlsAutoHide,
+            videoWidth: this.props.videoWidth,
+            videoHeight: this.props.videoHeight,
             key: source.uri,
-            endWithThumbnail: true,
+            endWithThumbnail: this.props.endWithThumbnail,
             thumbnail: this.props.thumbnail,
             video: source,
             children: (
